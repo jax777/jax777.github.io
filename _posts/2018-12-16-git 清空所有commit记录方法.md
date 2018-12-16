@@ -18,8 +18,8 @@ title: git 清空所有commit记录方法
     `git commit -am "commit message"`
 
 4. Delete the branch
-`
-   ` git branch -D master
+
+   ` git branch -D master`
 
 5. Rename the current branch to master
 
