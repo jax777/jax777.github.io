@@ -8,6 +8,6 @@ permalink: /reference/
 {:toc}
 
 
-走向架构师之路
+list-of-bug-bounty-writeups
 =====================
-[list-of-bug-bounty-writeups](https://pentester.land/list-of-bug-bounty-writeups.html)
+[pentester.land/list-of-bug-bounty-writeups.html](https://pentester.land/list-of-bug-bounty-writeups.html)

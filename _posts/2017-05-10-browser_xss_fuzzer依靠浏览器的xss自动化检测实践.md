@@ -9,10 +9,10 @@ tag: xss
 完全依靠前端代码实现xss的fuzz，通过浏览器打开一个html实现在各个浏览器环境下的fuzz。需要针对不同浏览器测试时，只需在各个浏览器中打开测试页面即可。
 主页面与测试页面交互依靠postMessage传递信息，做出判断。
 
-![](https://raw.githubusercontent.com/jax777/pic4blog/master/2018-12-16/demo.png)
+![](/images/2018-12-16/demo.png)
 ### 基本设计流程如下
 
-![](https://raw.githubusercontent.com/jax777/pic4blog/master/2018-12-16/procedure.png)
+![](/images/2018-12-16/procedure.png)
 
 
 
@@ -41,4 +41,4 @@ function createInput(sfForm,type,name,value)
 
 # 实现情况
 给大家看一下实现的界面
-![](https://raw.githubusercontent.com/jax777/pic4blog/master/2018-12-16/ui.png)
+![](/images/2018-12-16/ui.png)
