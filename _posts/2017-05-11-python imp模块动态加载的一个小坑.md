@@ -1,6 +1,8 @@
 ---
 layout: post
 title: python imp模块动态加载的一个小坑
+categories: python
+tag: python
 ---
 
 # 前言

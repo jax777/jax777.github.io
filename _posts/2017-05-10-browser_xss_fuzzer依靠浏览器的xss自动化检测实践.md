@@ -1,6 +1,8 @@
 ---
 layout: post
 title: browser_xss_fuzzer依靠浏览器的xss自动化检测实践
+categories: 前端
+tag: xss
 ---
 
 # 基本思想

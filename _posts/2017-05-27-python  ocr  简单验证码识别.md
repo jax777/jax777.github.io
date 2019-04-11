@@ -1,6 +1,8 @@
 ---
 layout: post
 title: python  ocr  简单验证码识别
+categories: python
+tag: 验证码
 ---
 
 
