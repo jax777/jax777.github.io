@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Linux OOM killer
+categories: linux
+tag: linux
 ---
 
 # 说明
