@@ -87,7 +87,7 @@ if __name__ == '__main__':
 ```
 
 
-win10 `java version "1.8.0_201" `环境实际测试 ysoserial 中 依赖 `commons-collections:3.1`的`CommonsCollections5` 和 `CommonsCollections6 `可成功执行
+win10 `jdk 8u201" `环境实际测试 ysoserial 中 依赖 `commons-collections:3.1`的`CommonsCollections5` 和 `CommonsCollections6 `可成功执行
 ```
      CommonsCollections1 @frohoff                    commons-collections:3.1
      CommonsCollections2 @frohoff                    commons-collections4:4.0
@@ -234,21 +234,20 @@ valfield.set(val, entry);
 ## Ysoserial CommonsCollections5 Gadget chain:
 ```
         ObjectInputStream.readObject()
-            AnnotationInvocationHandler.readObject()
-                Map(Proxy).entrySet()
-                    AnnotationInvocationHandler.invoke()
-                        LazyMap.get()
-                            ChainedTransformer.transform()
-                                ConstantTransformer.transform()
-                                InvokerTransformer.transform()
-                                    Method.invoke()
-                                        Class.getMethod()
-                                InvokerTransformer.transform()
-                                    Method.invoke()
-                                        Runtime.getRuntime()
-                                InvokerTransformer.transform()
-                                    Method.invoke()
-                                        Runtime.exec()
+            BadAttributeValueExpException.readObject()
+                TiedMapEntry.toString()
+                    LazyMap.get()
+                        ChainedTransformer.transform()
+                            ConstantTransformer.transform()
+                            InvokerTransformer.transform()
+                                Method.invoke()
+                                    Class.getMethod()
+                            InvokerTransformer.transform()
+                                Method.invoke()
+                                    Runtime.getRuntime()
+                            InvokerTransformer.transform()
+                                Method.invoke()
+                                    Runtime.exec()
 ```
 
 ## java-sec-code 中java 反序列化示例执行到exec时的stack

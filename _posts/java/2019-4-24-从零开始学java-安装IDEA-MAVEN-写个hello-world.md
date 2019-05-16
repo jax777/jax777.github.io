@@ -2,7 +2,7 @@
 layout: post
 title: 从零开始学java-安装IDEA-MAVEN-写个hello-world
 categories: java
-tag: 从零开始学java
+tag: 环境安装
 ---
 
 # 说明
