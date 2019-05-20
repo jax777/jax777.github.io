@@ -7,6 +7,318 @@ tag: java
 
 - https://github.com/Snailclimb/JavaGuide  Java学习+面试指南
 
+## java 代理 proxy
+
+> https://www.jianshu.com/p/28286f460f1e
+
+### 介绍
+
+为程序中已经存在的许多具有相同接口的目标类的各个方法增加功能，比如记录日志、计算方法运行时间、权限管理、异常处理等
+
+### 静态代理
+
+要统计一个类的某个方法的运行时间，这个类没有源代码，如何增加代理。
+
+- 目标类
+
+```java
+public class Hello {
+    public void sayHello(){
+        System.out.println("Hello Java!");
+    }
+}
+```
+
+- 自定义代理类
+
+```java
+public class HelloProxy {
+
+    private Hello hello = new Hello();
+    /**
+     * 统计sayHello方法所用的时间
+     */
+    public void sayHello(){
+        //前置功能代码
+        long startTime = System.currentTimeMillis();
+        //调用目标方法
+        hello.sayHello();
+        //后置功能代码
+        long endTime = System.currentTimeMillis();
+        System.out.println("Hello类的sayHello方法花费了:" + (endTime - startTime) + "毫秒");
+    }
+}
+```
+
+显然,采用静态代理，不同接口的类需要不同的代理类。
+
+### 动态代理
+
+![](/styles/images/2019-4/javaproxy.png)
+
+- JVM虚拟机可以在运行期动态生成出类的字节码，这种动态生成的类往往被用作代理类，即动态代理类。
+- JVM生成的动态类必须实现一个或多个接口，所以，JVM生成的动态类只能用作具有相同接口的目标代理类。
+
+- 添加 java.lang.reflect.Proxy 类
+
+- 动态生成类的字节码,并打印生成类的构造函数
+
+```java
+    /**
+     * 动态生成类的字节码,并打印生成类的构造函数
+     */
+    public static void getConStructors(){
+
+        //动态生成代理类
+        //ClassLoader:  每一个Class就必须有一个类加载器加载进来的，比如每个人都有一个妈妈。既然需要JVM动态生成Java类，所以要为动态生成类的字节码指定类加载器
+        //Class Interfaces: 动态生成的字节码实现了哪些接口
+        Class clazzProxy1 = Proxy.getProxyClass(Collection.class.getClassLoader(), Collection.class);
+
+        //获取这个代理类的构造方法
+        Constructor[] constructors = clazzProxy1.getConstructors();
+
+        System.out.println("---------------------begin Construstors-----------------");
+        //遍历构造方法
+        for (Constructor constructor: constructors) {
+            //获取每个名称
+            String name = constructor.getName();
+            StringBuilder sb = new StringBuilder(name);
+            sb.append("(");
+            //获取每个构造方法的参数类型
+            Class[] clazzTypes = constructor.getParameterTypes();
+            for (Class clazzType : clazzTypes) {
+                sb.append(clazzType.getName()).append(".");
+            }
+            if(clazzTypes != null && clazzTypes.length != 0){
+                sb.deleteCharAt(sb.length() - 1);
+            }
+            sb.append(")");
+            System.out.println(sb.toString());
+        }
+    }
+
+    /*
+    输出：
+    ---------------------begin Construstors-----------------
+    com.sun.proxy.$Proxy0(java.lang,reflect,InvocationHandler)
+    ---------------------begin Construstors-----------------
+    */
+```
+
+- 要通过Proxy类来动态生成代理类，就必须要传入两个参数
+
+  - 动态生成类的字节码指定类加载器
+  - 动态生成的字节码实现了哪些接口
+
+- 动态生成类的字节码,并打印生成类的所有方法
+
+```java
+   /**
+     * 动态生成类的字节码,并打印动态类的每个方法
+     */
+    public static void getMethods(){
+        //动态生成代理类
+        Class clazzProxy1 = Proxy.getProxyClass(Collection.class.getClassLoader(), Collection.class);
+
+        //获取这个代理类的构造方法
+        Method[] methods = clazzProxy1.getMethods();
+
+        System.out.println("---------------------begin Construstors-----------------");
+        //遍历构造方法
+        for (Method method: methods) {
+            //获取每个名称
+            String name = method.getName();
+            StringBuilder sb = new StringBuilder(name);
+            sb.append("(");
+            //获取每个构造方法的参数类型
+            Class[] clazzTypes = method.getParameterTypes();
+            for (Class clazzType : clazzTypes) {
+                sb.append(clazzType.getName()).append(".");
+            }
+            if(clazzTypes != null && clazzTypes.length != 0){
+                sb.deleteCharAt(sb.length() - 1);
+            }
+            sb.append(")");
+            System.out.println(sb.toString());
+        }
+    }
+```
+![输出结果](/styles/images/2019-4/proxymethod.png)
+
+通过打印结果可知，动态代理类 clazzProxy1 的每个方法都有Collection接口的每个方法和Object类的每个方法。
+
+- 完成InvocationHandler对象的内部功能
+
+java.lang.reflect.Proxy 类为我们直接提供创建出代理对象的方式，就是调用Proxy.newProxyInstance方法。就省去了先获取动态类的Class对象，再通过Class对象获取动态类的对象的过程了。
+
+```java
+    public static void getMyInstance(){
+        //Proxy.newInstance方法直接创建出代理对象
+        Collection proxy1 = (Collection) Proxy.newProxyInstance(
+                Collection.class.getClassLoader(), 
+                new Class[]{Collection.class},
+                new InvocationHandler() {
+                    //方法外部指定目标
+                    List target = new ArrayList<>();
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        //在调用代码之前加入系统功能代码
+                        long startTime = System.currentTimeMillis();
+                        //睡眠1秒钟
+                        Thread.sleep(1000);
+                        //目标方法
+                        Object retVal = method.invoke(target, args);
+                        //在调用代码之后加入系统功能代码
+                        long endTime = System.currentTimeMillis();
+                        System.out.println( method.getName() + "方法花费了:" + (endTime - startTime) + "毫秒");
+                        return retVal;
+                    }
+                });
+
+        proxy1.add("a");
+        proxy1.add("b");
+        proxy1.add("c");
+        //3
+        System.out.println(proxy1.size());
+    }
+
+
+/*
+输出：
+add方法花费了:1001毫秒
+add方法花费了:1001毫秒
+add方法花费了:1001毫秒
+size方法花费了：1001毫秒
+3
+*/
+```
+
+每次调用代理对象的每个方法，都会调用InvocationHandler的invoke方法。
+
+- 为了在系统运行的时候，可以临时的灵活加入系统功能，实现系统功能灵活解耦。要为InvocationHandler传递两个对象：
+
+  - 目标对象target
+  - 系统功能对象
+
+```java
+import java.lang.reflect.Method;
+
+/**
+ * 实现系统功能接口
+ * @author
+ *
+ */
+public interface Advice {
+
+    void beforeMethod(Method method);
+    void afterMethod(Method method);
+```
+
+```java
+import java.lang.reflect.Method;
+/**
+ * 自定义系统功能的实现类
+ * @author tianshuo
+ *
+ */
+public class MyAdvice implements Advice {
+
+    @Override
+    public void beforeMethod(Method method) {
+        System.out.println("在目标方法之前调用！");
+    }
+
+    @Override
+    public void afterMethod(Method method) {
+        System.out.println("在目标方法之后调用！");
+    }
+
+}
+```
+
+```java
+/**
+     * 使用传递参数的方式灵活创建代理对象
+     * @param target:目标对象
+     * @param advice:系统功能对象
+     * @return Proxy Object:代理对象
+     */
+    public static Object getProxy(final Object target,final Advice advice){
+
+        //Proxy.newInstance方法直接创建出代理对象
+        Object proxy3 = Proxy.newProxyInstance(
+                target.getClass().getClassLoader(), 
+                target.getClass().getInterfaces(),
+                new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+
+                        advice.beforeMethod(method);
+
+                        Object retVal = method.invoke(target, args);
+
+                        advice.afterMethod(method);
+
+                        return retVal;
+                    }
+                });
+        return proxy3;
+    }
+
+}
+```
+
+```java
+/**
+     * 调用代理对象
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception{
+        List target = new ArrayList<>();
+        List proxyObject = (List) getProxy(target, new MyAdvice());
+        proxyObject.add("abc");
+        System.out.println(proxyObject.size());
+
+    }
+
+/*
+输出：
+在目标方法之前调用！
+在目标方法之后调用！
+在目标方法之前调用！
+在目标方法之后调用！
+1
+*/
+```
+
+
+
+## java supertype
+
+> https://stackoverflow.com/questions/15130067/what-is-a-supertype-method
+
+
+面向对象程序设计中有一个超类型和子类型的概念，在java中这种关系是通过继承实现的，即使用extends关键字:
+
+```java
+class A{} // super class
+class B extends A {} // sub class
+```
+
+所有在super class 中定义的member（字段、方法） 均可以被叫做 supertype
+
+因此在上下文中 如果 class A 有一个方法如下
+
+```java
+class A{
+    void set()
+}
+```
+
+set 就是class B的一个 supertype
+
+
 ## java bean
 
 1. 所有属性为private

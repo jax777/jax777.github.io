@@ -19,3 +19,9 @@
     https://paper.seebug.org/909/?utm_source=tuicool&utm_medium=referral&tdsourcetag=s_pctim_aiomsg
 
 - linux suid
+
+- 陌陌安全编码规范
+
+    https://github.com/momosecurity/rhizobia_J
+
+    https://github.com/momosecurity/rhizobia_P  

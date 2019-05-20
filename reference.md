@@ -12,6 +12,10 @@ list-of-bug-bounty-writeups
 =====================
 [pentester.land/list-of-bug-bounty-writeups.html](https://pentester.land/list-of-bug-bounty-writeups.html)
 
+Java反序列化备忘录
+====
+[xz.aliyun.com/t/2042](https://xz.aliyun.com/t/2042)
+
 Java学习+面试指南
 ====
 [github.com/Snailclimb/JavaGuide](https://github.com/Snailclimb/JavaGuide)
