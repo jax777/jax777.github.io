@@ -2,10 +2,16 @@
 layout: post
 title: java一些语言tips
 categories: java
-tag: java
+tag: tips
 ---
 
 - https://github.com/Snailclimb/JavaGuide  Java学习+面试指南
+
+## maven
+
+```bash
+mvn clean package -DskipTests
+```
 
 ## java 代理 proxy
 
