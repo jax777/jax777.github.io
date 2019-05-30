@@ -27,3 +27,7 @@ Java入门教程
 Java 各版本jdk 归档下载
 ===
 [www.oracle.com/technetwork/java/archive-139210.html](https://www.oracle.com/technetwork/java/archive-139210.html)
+
+hacking-facebook-the-hard-way
+===
+[hacking-facebook-the-hard-way](https://www.symbo1.com/articles/2019/05/21/hacking-facebook-the-hard-way.html)
