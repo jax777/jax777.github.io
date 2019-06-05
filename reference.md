@@ -38,3 +38,10 @@ linux-101-hacks
 shell语句解释神器
 ===
 [explainshell.com](https://explainshell.com/)
+
+解析`postgresql mysql nginx gitconfig` 语句
+===
+[http://showthedocs.com/](http://showthedocs.com/)
+
+showthedocs is a documentation browser that finds the relevant docs for your code. It works by parsing the code and connecting parts of it to their explanation in the docs. Read more here.
+
