@@ -7,7 +7,6 @@ permalink: /reference/
 * content
 {:toc}
 
-
 list-of-bug-bounty-writeups
 =====================
 [pentester.land/list-of-bug-bounty-writeups.html](https://pentester.land/list-of-bug-bounty-writeups.html)
@@ -31,3 +30,11 @@ Java 各版本jdk 归档下载
 hacking-facebook-the-hard-way
 ===
 [hacking-facebook-the-hard-way](https://www.symbo1.com/articles/2019/05/21/hacking-facebook-the-hard-way.html)
+
+linux-101-hacks
+===
+[linux-101-hacks](https://wrfly.gitbooks.io/linux-101-hacks/content/)
+
+shell语句解释神器
+===
+[explainshell.com](https://explainshell.com/)
