@@ -7,7 +7,7 @@ tag: tips
 
 ## wsl linux文件 在win10中打开
 
-- wsl 中 /mnt 下会挂载 win10中各个盘符，可通过移动到改路径下导出文件
+- wsl 中 /mnt 下会挂载 win10中各个盘符，可通过移动到该路径下导出文件
 
 ```
 jax777@DESKTOP-K49UI90:/mnt$ ls
