@@ -32,3 +32,7 @@ tag: 环境安装
     加入
 
     `export GOPATH=/home/gopath`
+
+## 设置代理下载
+
+> https://github.com/goproxy/goproxy.cn/blob/master/README.zh-CN.md

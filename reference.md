@@ -7,8 +7,13 @@ permalink: /reference/
 * content
 {:toc}
 
+Awesome-WAF  各种资料搜索
+===
+[https://github.com/sindresorhus/awesome](https://github.com/sindresorhus/awesome)
+[https://awesomelists.top/#/repos/0xinfection/Awesome-WAF](https://awesomelists.top/#/repos/0xinfection/Awesome-WAF)
+
 list-of-bug-bounty-writeups
-=====================
+====
 [pentester.land/list-of-bug-bounty-writeups.html](https://pentester.land/list-of-bug-bounty-writeups.html)
 
 Java反序列化备忘录
@@ -45,3 +50,12 @@ shell语句解释神器
 
 showthedocs is a documentation browser that finds the relevant docs for your code. It works by parsing the code and connecting parts of it to their explanation in the docs. Read more here.
 
+渗透测试备忘
+===
+[渗透测试备忘](https://github.com/Ridter/Intranet_Penetration_Tips)
+
+sql注入bypass
+===
+[mysql](https://github.com/aleenzz/MYSQL_SQL_BYPASS_WIKI)
+
+[mssql](https://github.com/aleenzz/MSSQL_SQL_BYPASS_WIKI)

