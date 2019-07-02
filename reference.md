@@ -59,3 +59,30 @@ sql注入bypass
 [mysql](https://github.com/aleenzz/MYSQL_SQL_BYPASS_WIKI)
 
 [mssql](https://github.com/aleenzz/MSSQL_SQL_BYPASS_WIKI)
+
+APP安全在线监测
+===
+[先知](https://xz.aliyun.com/t/519)
+
+```text
+腾讯金刚审计系统 http://service.security.tencent.com/kingkong 免费 无限制
+腾讯御安全 http://yaq.qq.com/ 免费 查看漏洞详情需认证
+阿里聚安全 http://jaq.alibaba.com/ 免费 查看漏洞详情需认证
+360显微镜 http://appscan.360.cn/ 免费 无限制
+360APP漏洞扫描 http://dev.360.cn/html/vulscan/scanning.html 免费 无限制
+百度MTC http://mtc.baidu.com 9.9元/次 无限制
+梆梆 https://dev.bangcle.com 免费 无限制
+爱内测 http://www.ineice.com/ 免费 无限制
+通付盾 http://www.appfortify.cn/ 免费 无限制
+NAGA http://www.nagain.com/appscan/ 免费 无限制
+GES审计系统 http://01hackcode.com/ 免费 无限制
+盘古出品的Janeushttp://appscan.io
+Janus http://cloud.appscan.io
+补充
+1.腾讯电脑管家：哈勃 http://habo.qq.com/
+2.腾讯TSRC：金刚 http://service.security.tencent.com/
+3.阿里聚安全：http://jaq.alibaba.com/
+4.西安交通大学 sanddroid：http://sanddroid.xjtu.edu.cn/#home
+5.金山火眼：http://fireeye.ijinshan.com/analyse.html
+6.瀚海源文件B超：https://b-chao.com
+```

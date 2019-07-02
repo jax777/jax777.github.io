@@ -20,3 +20,16 @@
     https://github.com/momosecurity/rhizobia_J
 
     https://github.com/momosecurity/rhizobia_P  
+
+- https://github.com/kasuganosoras/cloudflare-worker-blog
+
+    cloudflare 新姿势上网？
+
+- xss 与 Electron
+    
+    https://www.blackhat.com/docs/us-17/thursday/us-17-Carettoni-Electronegativity-A-Study-Of-Electron-Security.pdf
+    https://www.blackhat.com/docs/us-17/thursday/us-17-Carettoni-Electronegativity-A-Study-Of-Electron-Security-wp.pdf
+    https://blog.scottlogic.com/2016/03/09/As-It-Stands-Electron-Security.html
+    https://blog.scottlogic.com/2016/06/01/An-update-on-Electron-Security.html
+
+- apk 分析
