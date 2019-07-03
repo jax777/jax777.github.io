@@ -38,4 +38,14 @@ Receiving objects: 100% (73323/73323), 86.38 MiB | 888.00 KiB/s, done.
 Resolving deltas: 100% (56099/56099), done.
 Checking out files: 100% (2449/2449), done.
 
+# 关闭代理
+
+off)
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+
+# 查看代理状态
+status)
+git config --get http.proxy
+git config --get https.proxy
 ```
