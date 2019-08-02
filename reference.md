@@ -7,6 +7,25 @@ permalink: /reference/
 * content
 {:toc}
 
+各种wiki
+===
+
+
+    Pentesting
+    Network
+    Web-hacking
+    Forensics
+    Reversing
+    Malware
+    Drones
+
+
+[https://www.aldeid.com/wiki/Main_Page](https://www.aldeid.com/wiki/Main_Page)
+
+red-teaming-toolkit-collection
+===
+[https://0xsp.com/offensive/red-teaming-toolkit-collection](https://0xsp.com/offensive/red-teaming-toolkit-collection)
+
 Awesome-WAF  各种资料搜索
 ===
 [https://github.com/sindresorhus/awesome](https://github.com/sindresorhus/awesome)
@@ -64,22 +83,22 @@ APP安全在线监测
 ===
 [来源先知](https://xz.aliyun.com/t/519)
 
-
 - 腾讯金刚审计系统 [http://service.security.tencent.com/kingkong](http://service.security.tencent.com/kingkong) 免费 无限制
 - 腾讯御安全 [http://yaq.qq.com/](http://yaq.qq.com/) 免费 查看漏洞详情需认证
-- 阿里聚安全 [http://jaq.alibaba.com/](http://yaq.qq.com/) 免费 查看漏洞详情需认证
-- 360显微镜 [http://appscan.360.cn/](http://yaq.qq.com/) 免费 无限制
+- 阿里聚安全 [http://jaq.alibaba.com/](http://jaq.alibaba.com/) 已关
+- 360显微镜 [http://appscan.360.cn/](http://appscan.360.cn/) 免费 无限制
 - 360APP漏洞扫描 [http://dev.360.cn/html/vulscan/scanning.html](http://dev.360.cn/html/vulscan/scanning.html) 免费 无限制
 - 百度MTC [http://mtc.baidu.com](http://mtc.baidu.com ) 9.9元/次 无限制
-- 梆梆 [https://dev.bangcle.com](http://mtc.baidu.com ) 免费 无限制
-- 爱内测 [http://www.ineice.com/](http://mtc.baidu.com ) 免费 无限制
-- 通付盾 [http://www.appfortify.cn/](http://mtc.baidu.com ) 免费 无限制
+- 梆梆 [https://dev.bangcle.com](https://dev.bangcle.com) 免费 无限制
+- 爱内测 [http://www.ineice.com/](http://www.ineice.com/) 免费 无限制
+- 通付盾 [http://www.appfortify.cn/](http://www.appfortify.cn/) 免费 无限制
 - NAGA [http://www.nagain.com/appscan/](http://www.nagain.com/appscan/) 免费 无限制
--GES审计系统 [http://01hackcode.com/](http://www.nagain.com/appscan/) 免费 无限制
-- 盘古出品的Janeus [http://appscan.io](http://www.nagain.com/appscan/)
-- Janus [http://cloud.appscan.io](http://www.nagain.com/appscan/)
+- GES审计系统 [http://01hackcode.com/](http://01hackcode.com/) 免费 无限制
+- 盘古出品的Janeus [http://appscan.io](http://appscan.io)
+- Janus [http://cloud.appscan.io](http://cloud.appscan.io)
 
 补充
+
 1. 腾讯电脑管家：哈勃 [http://habo.qq.com/](http://habo.qq.com/)
 2. 腾讯TSRC：金刚 [http://service.security.tencent.com/](http://service.security.tencent.com/)
 3. 阿里聚安全：[http://jaq.alibaba.com/](http://jaq.alibaba.com/)
