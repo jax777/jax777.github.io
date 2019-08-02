@@ -1,6 +1,6 @@
 ---
 layout: post
-title: sqlmap早已可以处理在 http response header 中的bool型注入
+title: sqlmap处理在 http response header 中的bool型注入
 categories: java
 tag: tips
 ---
