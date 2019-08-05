@@ -1,16 +1,19 @@
 ---
 layout: post
-title: snort and Suricata 规则语法
+title: 开源ids ，snort and Suricata 
 categories: 渗透测试
 tag: IDS
 ---
 
-# 了解一些开源IDS
+# 了解一下开源IDS
+> https://www.aldeid.com/wiki/Suricata-vs-snort
 
 ## snort
 
 > https://www.snort.org/documents
 > https://www.snort.org/rule-docs
+> http://manual-snort-org.s3-website-us-east-1.amazonaws.com/ 
+> https://www.cnblogs.com/HacTF/p/7992787.html
 
 - Sniffer mode, which simply reads the packets off of the network and displays them for you in a continuous stream on the console (screen).
 - Packet Logger mode, which logs the packets to disk. 
@@ -26,7 +29,6 @@ Snort的结构由4大软件模块组成，它们分别是：
 
 ### 预处理器
 **以下参考 SNORT Users Manual 2.9.13**
->http://manual-snort-org.s3-website-us-east-1.amazonaws.com/ 
 
 - Frag3 IP分片重组和攻击监测
 - Session
@@ -57,6 +59,15 @@ Snort的结构由4大软件模块组成，它们分别是：
 
 Snort使用一种简单的规则描述语言，这种描述语言易于扩展，功能也比较强大。Snort规则是基于文本的，规则文件按照不同的组进行分类。
 
+| 类型           | 说明                                                                                          |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| general        | 这些选项提供有关规则的信息，但在检测期间没有任何影响                                          |
+| payload        | These options all look for data inside the packet payload and can be inter-related            |
+| non-payload    | These options look for non-payload data      此类规则选项都是对数据包帧结构中特殊字段的匹配。 |
+| post-detection | 这些选项是特定于规则的触发器，发生在规则“触发”之后。                                          |
+
+每类规则提供了不同的body 规则选项 关键字
+
 示例:`alert tcp any any -> 192.168.1.1 80 ( msg:"A ha!"; content:"attack"; sid:1; )`
 
 结构: `action proto source dir dest ( body )`
@@ -80,8 +91,44 @@ Snort使用一种简单的规则描述语言，这种描述语言易于扩展，
 
 **body 规则选项**
 
+具体看 Users Manual 
+- sid map
+  sid这个关键字被用来识别snort规则的唯一性,map文件用来将sid 和 msg对应
+  ![](/styles/images/2019-8/sidmap.jpg)
+- content
+  Snort重要的关键词之一。它规定在数据包的负载中搜索指定的样式。它的选项数据可以包含混合的文本和二进制数据。二进制数据一般包含在管道符号中“|”，表示为字节码（bytecode），也就是将二进制数据的十六进制形式。
+    ```
+    alert tcp any any -> any 139 (content:"|5c 00|P|00|I|00|P|00|E|00 5c|";)
+    alert tcp any any -> any 80 (content:!“GET”;)
+    ```
+  -  Nocase            content字符串大小写不敏感
+  -  rawbytes          直接匹配原始数据包
+  -  Depth             匹配的深度
+  -  Offset            开始匹配的偏移量
+  -  Distance          两次content匹配的间距
+  -  Within            两次content匹配之间至多的间距  
+  -  http_cookie       匹配cookie
+  -  http_raw_cookie   匹配未经normalize的cookie
+  -  http_header       匹配header
+  -  http_raw_header   匹配未经normalize的header
+  -  http_method       匹配method
+  -  http_url          匹配url
+  -  http_raw_url      匹配日在未经normalize的url中
+  -  http_stat_code    匹配状态码中匹配
+  -  http_stat_msg     匹配状态信息
+  -  http_encode       匹配编码格式
 
-### 端口扫描检测\规则
+- pcre
+  允许用户使用与PERL语言相兼容的正则表达式。
+  `pcre:[!]"(/<regex>/|m<delim><regex><delim>)[ismxAEGRUBPHMCOIDKY]`
+  `alert tcp any any -> any 80 (content:“/foo.php?id="; pcre:"/\/foo.php?id=[0-9]{1,10}/iU";) `
+
+- rawbytes
+  忽略解码器及预处理器的操作，直接匹配原始网络包。
+
+
+
+### 端口扫描检测
 
 #### sfPortscan 预处理器
 
@@ -265,16 +312,23 @@ src\preprocessors\spp_sfportscan.h
       static int ps_get_proto(PS_PKT *, int *);
       ```
 - 扫描检测逻辑
-  
-  one_to_one 扫描即传统端口扫描为例；
-  1. 比较`scanned->priority_count >= conf->priority_count`
-     1. `scanned->u_ip_count < conf->u_ip_count && scanned->u_port_count >= conf->u_port_count`
-     2. 
-  2. 比较`scanned->connection_count >= conf->connection_count`
-     1. `scanned->u_ip_count < conf->u_ip_count && scanned->u_port_count >= conf->u_port_count`
-      报警 `PS_ALERT_ONE_TO_ONE_FILTERED`
 
+    **以sense_level high 的 one_to_one 扫描即传统端口扫描为例**
+    配置`static PS_ALERT_CONF g_tcp_hi_ps =        {200,5,100,10}`
+
+    这里scanned 都是被扫描主机的统计。scanner 为攻击主机的信息。 
+
+  1. 比较`scanned->priority_count >= 5// conf->priority_count`
+     1. `scanned->u_ip_count < 100 //conf->u_ip_count `
+         `&& scanned->u_port_count >= 10 //conf->u_port_count`
+         600 秒时间窗内 错误包>=5，不同连接ip数<100，不同端口数>=10 即判断为扫描
+  2. 比较`scanned->connection_count >= 200 //conf->connection_count`
+     1. `scanned->u_ip_count < 100//conf->u_ip_count`
+        ` && scanned->u_port_count >= 10//conf->u_port_count`
+      
+        600 秒时间窗内 活跃连接数>=200，不同连接ip数<100，不同端口数>=10 即判断为扫描=
   ```c
+
   static int ps_alert_one_to_one(PS_PROTO *scanner, PS_PROTO *scanned,
           PS_ALERT_CONF *conf, int proto)
   {
@@ -348,6 +402,29 @@ src\preprocessors\spp_sfportscan.h
   }
   ```
 
+  **sense_level high 的 many_to_one 扫描即 distributed 分布式扫描**
+  配置 `static PS_ALERT_CONF g_tcp_hi_dist_ps =   {200,5,200,10};`
+  1. 比较`scanned->priority_count >= 5// conf->priority_count`
+     1. `scanned->u_ip_count >= 200 //conf->u_ip_count `
+         `&& scanned->u_port_count <= 10 //conf->u_port_count`
+         600 秒时间窗内 错误包>=5，不同连接ip数>=200，不同端口数<=10 即判断为分布式扫描
+  2. 比较`scanned->connection_count >= 200 //conf->connection_count`
+     1. `scanned->u_ip_count >= 200//conf->u_ip_count`
+        ` && scanned->u_port_count <= 10//conf->u_port_count`
+      
+        600 秒时间窗内 活跃连接数>=200，不同连接ip数>=200，不同端口数<=10 即判断为分布式扫描
+
+  **sense_level high 的 one_to_many 扫描即portsweep**
+  配置 `static PS_ALERT_CONF g_tcp_hi_sweep =     {30,3,3,10};`
+  必须有scanne的信息才能判断出portsweep
+  1. 比较`scanner->priority_count >= 3// conf->priority_count`
+     1. `scanner->u_ip_count >= 3 //conf->u_ip_count `
+         `&& scanner->u_port_count <= 10 //conf->u_port_count`
+         600 秒时间窗内 扫描源 错误包>=3，不同连接ip数>=3，不同端口数<=10 即判断为portsweep
+  2. 比较`scanner->connection_count >= 30 //conf->connection_count`
+     1. `scanner->u_ip_count >= 3//conf->u_ip_count`
+        ` && scanner->u_port_count <= 10//conf->u_port_count`
+        600 秒时间窗内 扫描源 活跃连接数>=30，不同连接ip数>=3，不同端口数<=10 即判断为portsweep
 参考
 > https://onestraw.github.io/snort/sfportscan-addon-detect-portscan/
 
