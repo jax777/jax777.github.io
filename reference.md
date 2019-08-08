@@ -7,6 +7,10 @@ permalink: /reference/
 * content
 {:toc}
 
+内网渗透tips
+===
+[https://github.com/Ridter/Intranet_Penetration_Tips](https://github.com/Ridter/Intranet_Penetration_Tips)
+
 各种wiki
 ===
 

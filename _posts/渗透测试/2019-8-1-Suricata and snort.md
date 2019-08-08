@@ -1,13 +1,18 @@
 ---
 layout: post
-title: 开源ids ，snort and Suricata 
+title: 开源ids ，snort and Suricata ,简介，端口扫描检测逻辑
 categories: 渗透测试
 tag: IDS
 ---
 
-# 了解一下开源IDS
+# 开源IDS
 > https://www.aldeid.com/wiki/Suricata-vs-snort
 
+知乎发现 raul17 的译文
+> https://zhuanlan.zhihu.com/p/34329072
+
+rules下载
+> https://rules.emergingthreats.net/OPEN_download_instructions.html
 ## snort
 
 > https://www.snort.org/documents
@@ -126,6 +131,10 @@ Snort使用一种简单的规则描述语言，这种描述语言易于扩展，
 - rawbytes
   忽略解码器及预处理器的操作，直接匹配原始网络包。
 
+- sid  snort id ,这个关键字被用来识别snort规则的唯一性（说的其实严禁，后面会有补充）
+- gid 用是为了说明这条规则是snort的哪部分触发的。比如是由解码器、预处理器还是Snort自有规则等
+  
+- rev 这个关键字是被用来识别规则修改的版本，需要和sid,gid配合使用。 
 
 
 ### 端口扫描检测
@@ -167,6 +176,7 @@ src\preprocessors\spp_sfportscan.h
 ![](/styles/images/2019-8/snortport.jpg)
 
 - 设置不同级别时间窗
+  
   ```c
   static int ps_proto_update_window(PS_PROTO *proto, time_t pkt_time)
   {
@@ -327,6 +337,7 @@ src\preprocessors\spp_sfportscan.h
         ` && scanned->u_port_count >= 10//conf->u_port_count`
       
         600 秒时间窗内 活跃连接数>=200，不同连接ip数<100，不同端口数>=10 即判断为扫描=
+  
   ```c
 
   static int ps_alert_one_to_one(PS_PROTO *scanner, PS_PROTO *scanned,
@@ -425,6 +436,8 @@ src\preprocessors\spp_sfportscan.h
      1. `scanner->u_ip_count >= 3//conf->u_ip_count`
         ` && scanner->u_port_count <= 10//conf->u_port_count`
         600 秒时间窗内 扫描源 活跃连接数>=30，不同连接ip数>=3，不同端口数<=10 即判断为portsweep
+
+
 参考
 > https://onestraw.github.io/snort/sfportscan-addon-detect-portscan/
 
@@ -433,6 +446,72 @@ src\preprocessors\spp_sfportscan.h
 
 suricata是一款开源高性能的入侵检测系统，并支持ips（入侵防御）与nsm（网络安全监控）模式，用来替代原有的snort入侵检测系统，完全兼容snort规则语法和支持lua脚本。
 
+> https://redmine.openinfosecfoundation.org/projects/suricata/wiki
+
 ### 规则语法
 
-### 端口扫描检测规则
+兼容snort 规则
+![示例](/styles/images/2019-8/suricatarule.png)
+
+[开源规则库https://github.com/ptreesearch/AttackDetection](https://github.com/ptresearch/AttackDetection)
+
+### 端口扫描检测
+
+Suricata 中没有类似sfPortscan的预处理器，检测端口扫描依靠规则实现。
+![](/styles/images/2019-8/suricata-nmap.jpg)
+
+emergingthreats 中关于nmap的rules
+
+```
+suricata emerging.rules\emerging-deleted.rules
+  337,163: #alert tcp any any -> $HOME_NET any (msg:"ET DELETED Pitbull IRCbotnet Commands"; flow:from_server,established; content:"PRIVMSG|20|"; pcre:"/PRIVMSG.*@(portscan|nmap|back|udpflood|tcpflood|httpflood|linuxhelp|rfi|system|milw0rm|logcleaner|sendmail|join|part|help)/i";  reference:url,en.wikipedia.org/wiki/IRC_bot; reference:url,doc.emergingthreats.net/2007625; classtype:trojan-activity; sid:2007625; rev:6; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  789,93: #alert http $EXTERNAL_NET any -> $HOME_NET any (msg:"ET DELETED EXE Using Suspicious IAT NtUnmapViewOfSection Possible Malware Process Hollowing"; flowbits:isset,ET.http.binary; flow:established,to_client; content:"NtUnmapViewOfSection"; nocase; fast_pattern:only; reference:url,blog.spiderlabs.com/2011/05/analyzing-malware-hollow-processes.html; reference:url,sans.org/reading_room/whitepapers/malicious/rss/_33649; classtype:bad-unknown; sid:2012817; rev:4; metadata:created_at 2011_05_18, updated_at 2011_05_18;)
+  789,219: #alert http $EXTERNAL_NET any -> $HOME_NET any (msg:"ET DELETED EXE Using Suspicious IAT NtUnmapViewOfSection Possible Malware Process Hollowing"; flowbits:isset,ET.http.binary; flow:established,to_client; content:"NtUnmapViewOfSection"; nocase; fast_pattern:only; reference:url,blog.spiderlabs.com/2011/05/analyzing-malware-hollow-processes.html; reference:url,sans.org/reading_room/whitepapers/malicious/rss/_33649; classtype:bad-unknown; sid:2012817; rev:4; metadata:created_at 2011_05_18, updated_at 2011_05_18;)
+
+suricata emerging.rules\emerging-scan.rules
+  65,61: #alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN NMAP -sS window 2048"; fragbits:!D; dsize:0; flags:S,12; ack:0; window:2048; threshold: type both, track by_dst, count 1, seconds 60; reference:url,doc.emergingthreats.net/2000537; classtype:attempted-recon; sid:2000537; rev:8; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  67,60: #alert ip $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN NMAP -sO"; dsize:0; ip_proto:21; threshold: type both, track by_dst, count 1, seconds 60; reference:url,doc.emergingthreats.net/2000536; classtype:attempted-recon; sid:2000536; rev:7; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  69,61: #alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN NMAP -sA (1)"; fragbits:!D; dsize:0; flags:A,12; window:1024; threshold: type both, track by_dst, count 1, seconds 60; reference:url,doc.emergingthreats.net/2000538; classtype:attempted-recon; sid:2000538; rev:8; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  71,61: #alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN NMAP -sA (2)"; fragbits:!D; dsize:0; flags:A,12; window:3072; threshold: type both, track by_dst, count 1, seconds 60; reference:url,doc.emergingthreats.net/2000540; classtype:attempted-recon; sid:2000540; rev:8; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  73,61: #alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN NMAP -f -sF"; fragbits:!M; dsize:0; flags:F,12; ack:0; window:2048; threshold: type both, track by_dst, count 1, seconds 60; reference:url,doc.emergingthreats.net/2000543; classtype:attempted-recon; sid:2000543; rev:7; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  75,61: #alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN NMAP -f -sN"; fragbits:!M; dsize:0; flags:0,12; ack:0; window:2048; threshold: type both, track by_dst, count 1, seconds 60; reference:url,doc.emergingthreats.net/2000544; classtype:attempted-recon; sid:2000544; rev:7; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  77,61: #alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN NMAP -f -sX"; fragbits:!M; dsize:0; flags:FPU,12; ack:0; window:2048; threshold: type both, track by_dst, count 1, seconds 60; reference:url,doc.emergingthreats.net/2000546; classtype:attempted-recon; sid:2000546; rev:7; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  213,68: #alert icmp $EXTERNAL_NET any -> $HOME_NET any (msg:"GPL SCAN PING NMAP"; dsize:0; itype:8; reference:arachnids,162; classtype:attempted-recon; sid:2100469; rev:4; metadata:created_at 2010_09_23, updated_at 2010_09_23;)
+  247,65: alert http $EXTERNAL_NET any -> $HTTP_SERVERS any (msg:"ET SCAN NMAP SQL Spider Scan"; flow:established,to_server; content:"GET"; http_method; content:" OR sqlspider"; http_uri; reference:url,nmap.org/nsedoc/scripts/sql-injection.html; classtype:web-application-attack; sid:2013778; rev:2; metadata:created_at 2011_10_19, updated_at 2011_10_19;)
+  247,193: alert http $EXTERNAL_NET any -> $HTTP_SERVERS any (msg:"ET SCAN NMAP SQL Spider Scan"; flow:established,to_server; content:"GET"; http_method; content:" OR sqlspider"; http_uri; reference:url,nmap.org/nsedoc/scripts/sql-injection.html; classtype:web-application-attack; sid:2013778; rev:2; metadata:created_at 2011_10_19, updated_at 2011_10_19;)
+  323,62: #alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"GPL SCAN nmap TCP"; ack:0; flags:A,12; flow:stateless; reference:arachnids,28; classtype:attempted-recon; sid:2100628; rev:8; metadata:created_at 2010_09_23, updated_at 2010_09_23;)
+  325,62: #alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"GPL SCAN nmap XMAS"; flow:stateless; flags:FPU,12; reference:arachnids,30; classtype:attempted-recon; sid:2101228; rev:8; metadata:created_at 2010_09_23, updated_at 2010_09_23;)
+  327,62: #alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"GPL SCAN nmap fingerprint attempt"; flags:SFPU; flow:stateless; reference:arachnids,05; classtype:attempted-recon; sid:2100629; rev:7; metadata:created_at 2010_09_23, updated_at 2010_09_23;)
+  361,61: alert http $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN Nmap Scripting Engine User-Agent Detected (Nmap Scripting Engine)"; flow:to_server,established; content:"Mozilla/5.0 (compatible|3b| Nmap Scripting Engine"; nocase; http_user_agent; depth:46; reference:url,doc.emergingthreats.net/2009358; classtype:web-application-attack; sid:2009358; rev:5; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  361,104: alert http $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN Nmap Scripting Engine User-Agent Detected (Nmap Scripting Engine)"; flow:to_server,established; content:"Mozilla/5.0 (compatible|3b| Nmap Scripting Engine"; nocase; http_user_agent; depth:46; reference:url,doc.emergingthreats.net/2009358; classtype:web-application-attack; sid:2009358; rev:5; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  361,194: alert http $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN Nmap Scripting Engine User-Agent Detected (Nmap Scripting Engine)"; flow:to_server,established; content:"Mozilla/5.0 (compatible|3b| Nmap Scripting Engine"; nocase; http_user_agent; depth:46; reference:url,doc.emergingthreats.net/2009358; classtype:web-application-attack; sid:2009358; rev:5; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  415,61: #alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN NMAP -sS window 1024"; fragbits:!D; dsize:0; flags:S,12; ack:0; window:1024; threshold: type both, track by_dst, count 1, seconds 60; reference:url,doc.emergingthreats.net/2009582; classtype:attempted-recon; sid:2009582; rev:3; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  417,61: #alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN NMAP -sS window 3072"; fragbits:!D; dsize:0; flags:S,12; ack:0; window:3072; threshold: type both, track by_dst, count 1, seconds 60; reference:url,doc.emergingthreats.net/2009583; classtype:attempted-recon; sid:2009583; rev:3; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  419,61: #alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN NMAP -sS window 4096"; fragbits:!D; dsize:0; flags:S,12; ack:0; window:4096; threshold: type both, track by_dst, count 1, seconds 60; reference:url,doc.emergingthreats.net/2009584; classtype:attempted-recon; sid:2009584; rev:2; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  421,68: alert tcp $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"ET SCAN NMAP SIP Version Detect OPTIONS Scan"; flow:established,to_server; content:"OPTIONS sip|3A|nm SIP/"; depth:19; classtype:attempted-recon; sid:2018317; rev:1; metadata:created_at 2014_03_25, updated_at 2014_03_25;)
+  423,66: alert tcp $EXTERNAL_NET any -> $HOME_NET 5060:5061 (msg:"ET SCAN NMAP SIP Version Detection Script Activity"; content:"Via|3A| SIP/2.0/TCP nm"; content:"From|3A| <sip|3A|nm@nm"; within:150; fast_pattern; classtype:attempted-recon; sid:2018318; rev:1; metadata:created_at 2014_03_25, updated_at 2014_03_25;)
+  427,61: #alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN NMAP -f -sV"; fragbits:!M; dsize:0; flags:S,12; ack:0; window:2048; threshold: type both, track by_dst, count 1, seconds 60; reference:url,doc.emergingthreats.net/2000545; classtype:attempted-recon; sid:2000545; rev:8; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  429,66: alert udp $EXTERNAL_NET 10000: -> $HOME_NET 10000: (msg:"ET SCAN NMAP OS Detection Probe"; dsize:300; content:"CCCCCCCCCCCCCCCCCCCC"; fast_pattern:only; content:"CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"; depth:255; content:"CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"; within:45; classtype:attempted-recon; sid:2018489; rev:3; metadata:created_at 2014_05_20, updated_at 2014_05_20;)
+  449,61: alert http $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN Nmap Scripting Engine User-Agent Detected (Nmap NSE)"; flow:to_server,established; content:"Nmap NSE"; http_user_agent; reference:url,doc.emergingthreats.net/2009359; classtype:web-application-attack; sid:2009359; rev:4; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  449,104: alert http $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN Nmap Scripting Engine User-Agent Detected (Nmap NSE)"; flow:to_server,established; content:"Nmap NSE"; http_user_agent; reference:url,doc.emergingthreats.net/2009359; classtype:web-application-attack; sid:2009359; rev:4; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  449,153: alert http $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN Nmap Scripting Engine User-Agent Detected (Nmap NSE)"; flow:to_server,established; content:"Nmap NSE"; http_user_agent; reference:url,doc.emergingthreats.net/2009359; classtype:web-application-attack; sid:2009359; rev:4; metadata:created_at 2010_07_30, updated_at 2010_07_30;)
+  507,50: alert tcp any any -> $HOME_NET any (msg:"ET SCAN Nmap NSE Heartbleed Request"; flow:established,to_server; content:"|18 03|"; depth:2; byte_test:1,<,4,2; content:"|01|"; offset:5; depth:1; byte_test:2,>,2,3; byte_test:2,>,200,6; content:"|40 00|Nmap ssl-heartbleed"; fast_pattern:2,19; classtype:attempted-recon; sid:2021023; rev:1; metadata:created_at 2015_04_28, updated_at 2015_04_28;)
+  507,246: alert tcp any any -> $HOME_NET any (msg:"ET SCAN Nmap NSE Heartbleed Request"; flow:established,to_server; content:"|18 03|"; depth:2; byte_test:1,<,4,2; content:"|01|"; offset:5; depth:1; byte_test:2,>,2,3; byte_test:2,>,200,6; content:"|40 00|Nmap ssl-heartbleed"; fast_pattern:2,19; classtype:attempted-recon; sid:2021023; rev:1; metadata:created_at 2015_04_28, updated_at 2015_04_28;)
+  509,50: alert tcp $HOME_NET any -> any any (msg:"ET SCAN Nmap NSE Heartbleed Response"; flow:established,from_server; content:"|18 03|"; depth:2; byte_test:1,<,4,2; byte_test:2,>,200,3; content:"|40 00|Nmap ssl-heartbleed"; fast_pattern:2,19; classtype:attempted-recon; sid:2021024; rev:1; metadata:created_at 2015_04_28, updated_at 2015_04_28;)
+  509,195: alert tcp $HOME_NET any -> any any (msg:"ET SCAN Nmap NSE Heartbleed Response"; flow:established,from_server; content:"|18 03|"; depth:2; byte_test:1,<,4,2; byte_test:2,>,200,3; content:"|40 00|Nmap ssl-heartbleed"; fast_pattern:2,19; classtype:attempted-recon; sid:2021024; rev:1; metadata:created_at 2015_04_28, updated_at 2015_04_28;)
+  587,60: alert http $HOME_NET any -> any any (msg:"ET SCAN Possible Nmap User-Agent Observed"; flow:to_server,established; content:"|20|Nmap"; http_user_agent; fast_pattern; metadata: former_category SCAN; classtype:web-application-attack; sid:2024364; rev:3; metadata:affected_product Any, attack_target Client_and_Server, deployment Perimeter, signature_severity Audit, created_at 2017_06_08, performance_impact Low, updated_at 2017_06_13;)
+  587,128: alert http $HOME_NET any -> any any (msg:"ET SCAN Possible Nmap User-Agent Observed"; flow:to_server,established; content:"|20|Nmap"; http_user_agent; fast_pattern; metadata: former_category SCAN; classtype:web-application-attack; sid:2024364; rev:3; metadata:affected_product Any, attack_target Client_and_Server, deployment Perimeter, signature_severity Audit, created_at 2017_06_08, performance_impact Low, updated_at 2017_06_13;)
+```
+
+解释
+`alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"ET SCAN NMAP -sS window 2048"; fragbits:!D; dsize:0; flags:S,12; ack:0; window:2048; threshold: type both, track by_dst, count 1, seconds 60; reference:url,doc.emergingthreats.net/2000537; classtype:attempted-recon; sid:2000537; rev:8; metadata:created_at 2010_07_30, updated_at 2010_07_30;)`
+
+- fragbits 检查ip头的分片标志位 !D
+- dsize 检查包的数据部分大小 0
+- flags 检查tcp flags的值 S,12
+- ack 检查tcp应答（acknowledgement）的值 0
+- window 关键字用于检查特定的TCP窗口大小。 2048
+- threshold: type both, track by_dst, count 1, seconds 60 
+  60 秒记录一次
+
+**可以尝试修改下nmap中的特征，可以过部分ids检测。snort 的sfPortscan 尝试下时间对抗，提高间隔，防止触发阈值。600秒时间窗口，10个端口**
