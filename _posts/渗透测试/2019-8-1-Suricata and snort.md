@@ -510,22 +510,23 @@ suricata emerging.rules\emerging-scan.rules
 - dsize 检查包的数据部分大小 0
 - flags 检查tcp flags的值 S,12
   保留位“1”和“2”分别用“C”和“E”代替，以匹配RFC 3168，“向IP添加显式拥塞通知（ECN）”。 “1”和“2”的旧值对于flag关键字仍然有效，但现在已弃用。
-  | flag | 说明                                                                             |
-  | ---- | -------------------------------------------------------------------------------- |
-  | F    | FIN - Finish (LSB in TCP Flags byte)                                             |
-  | S    | SYN - Synchronize sequence numbers                                               |
-  | R    | RST - Reset                                                                      |
-  | P    | PSH - Push                                                                       |
-  | A    | ACK - Acknowledgment                                                             |
-  | U    | URG - Urgent                                                                     |
-  | C    | CWR - Congestion Window Reduced (MSB in TCP Flags byte)                          |
-  | E    | ECE - ECN-Echo (If SYN, then ECN capable. Else, CE flag in IP header is set)     |
-  | 0    | No TCP Flags Set The ollowing modifiers can be set to change the match criteria: |
-  | 2    | Reserved bit 2                                                                   |
-  | 1    | Reserved bit 1 (MSB in TCP Flags byte)                                           |
-  | +    | match on the specified bits, plus any others                                     |
-  | *    | match if any of the specified bits are set                                       |
-  | !    | match if the specified bits are not set                                          |
+
+| flag | 说明                                                                             |
+| ---- | -------------------------------------------------------------------------------- |
+| F    | FIN - Finish (LSB in TCP Flags byte)                                             |
+| S    | SYN - Synchronize sequence numbers                                               |
+| R    | RST - Reset                                                                      |
+| P    | PSH - Push                                                                       |
+| A    | ACK - Acknowledgment                                                             |
+| U    | URG - Urgent                                                                     |
+| C    | CWR - Congestion Window Reduced (MSB in TCP Flags byte)                          |
+| E    | ECE - ECN-Echo (If SYN, then ECN capable. Else, CE flag in IP header is set)     |
+| 0    | No TCP Flags Set The ollowing modifiers can be set to change the match criteria: |
+| 2    | Reserved bit 2                                                                   |
+| 1    | Reserved bit 1 (MSB in TCP Flags byte)                                           |
+| +    | match on the specified bits, plus any others                                     |
+| *    | match if any of the specified bits are set                                       |
+| !    | match if the specified bits are not set                                          |
 - ack 检查tcp应答（acknowledgement）的值 0
 - window 关键字用于检查特定的TCP窗口大小。 2048
 - threshold: type both, track by_dst, count 1, seconds 60 
