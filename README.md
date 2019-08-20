@@ -2,6 +2,10 @@
 
 ## TO DO List
 
+- go shellcode 加载器
+ 
+    https://github.com/brimstone/go-shellcode
+
 - us-16-Munoz-A-Journey-From-JNDI-LDAP-Manipulation-To-RCE.pdf
 
     https://rickgray.me/2016/08/19/jndi-injection-from-theory-to-apply-blackhat-review/
