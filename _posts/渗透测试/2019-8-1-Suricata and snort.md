@@ -527,6 +527,7 @@ suricata emerging.rules\emerging-scan.rules
 | +    | match on the specified bits, plus any others                                     |
 | *    | match if any of the specified bits are set                                       |
 | !    | match if the specified bits are not set                                          |
+
 - ack 检查tcp应答（acknowledgement）的值 0
 - window 关键字用于检查特定的TCP窗口大小。 2048
 - threshold: type both, track by_dst, count 1, seconds 60 
