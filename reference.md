@@ -71,6 +71,9 @@ showthedocs is a documentation browser that finds the relevant docs for your cod
 - 渗透测试备忘
 [渗透测试备忘](https://github.com/Ridter/Intranet_Penetration_Tips)
 
+- 上传绕过
+[上传姿势](https://xz.aliyun.com/t/6047#reply-12557)
+
 - sql注入bypass
 [mysql](https://github.com/aleenzz/MYSQL_SQL_BYPASS_WIKI)
 
