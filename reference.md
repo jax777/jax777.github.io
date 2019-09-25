@@ -7,13 +7,22 @@ permalink: /reference/
 * content
 {:toc}
 
+- url 跳转 ssrf fuzz
+[站点跳转功能测试Cheatsheet](https://xz.aliyun.com/t/6225)
+- fuzz 字符串
+  ```
+  12345'"\'\");|]*%00{%0d%0a<%00>%bf%27'ðŸ’¡
+  ```
 - docker
   [docker手册](https://github.com/wsargent/docker-cheat-sheet/tree/master/zh-cn)
 
 - att&ck
   [att&ck](https://attack.mitre.org/)
+  [实现](https://github.com/lengjibo/ATT-CK-CN/blob/master/ATT%26CK%E6%A8%A1%E5%9E%8B.md)
   [mitre-attack github ](https://github.com/mitre-attack)
 
+- 渗透测试
+  [ptestmethod](https://ptestmethod.readthedocs.io/en/latest/index.html)
 - 内网渗透tips
 [goproxy](https://github.com/snail007/goproxy)
 [https://github.com/Ridter/Intranet_Penetration_Tips](https://github.com/Ridter/Intranet_Penetration_Tips)
@@ -81,6 +90,8 @@ showthedocs is a documentation browser that finds the relevant docs for your cod
 
 [注入姿势总结](https://xz.aliyun.com/t/5980)
 
+- php
+  - [phpinfo](https://xz.aliyun.com/t/6131)
 - APP安全在线监测
 [来源先知](https://xz.aliyun.com/t/519)
 

@@ -1,8 +1,8 @@
 ---
 layout: post
 title: gopacket库 路由选择操作的bug
-categories: linux
-tag: 路由
+categories: linux,go
+tag: 路由,go
 ---
 > https://github.com/google/gopacket/blob/master/routing/routing.go
 
