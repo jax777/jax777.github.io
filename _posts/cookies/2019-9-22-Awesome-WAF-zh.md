@@ -11,6 +11,10 @@ tag: waf
 
 ### fuzz/爆破
 
+- fuzz 字符串
+  ```text
+  12345'"\'\");|]*%00{%0d%0a<%00>%bf%27'ðŸ’¡
+  ```
 - 字典
     - [Seclists/Fuzzing](https://github.com/danielmiessler/SecLists/tree/master/Fuzzing).
     - [Fuzz-DB/Attack](https://github.com/fuzzdb-project/fuzzdb/tree/master/attack)
