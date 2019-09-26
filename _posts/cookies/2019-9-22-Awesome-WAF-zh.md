@@ -12,6 +12,7 @@ tag: waf
 ### fuzz/爆破
 
 - fuzz 字符串
+  
   ```text
   12345'"\'\");|]*%00{%0d%0a<%00>%bf%27'ðŸ’¡
   ```
@@ -262,6 +263,7 @@ Content-Length: 115
 
 The following table shows the support of different character encodings on the tested systems (when messages could be 混淆 using them):
 > __TIP:__ 可以使用 [这个小脚本](https://github.com/0xInfection/Awesome-WAF/blob/master/others/obfu.py) 来转化编码
+
 ```python
 import urllib.parse, sys
 from argparse import ArgumentParser
