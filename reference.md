@@ -25,10 +25,10 @@ permalink: /reference/
 [站点跳转功能测试Cheatsheet](https://xz.aliyun.com/t/6225)
 
 - fuzz 字符串
-  ```
+  ```text
   12345'"\'\");|]*%00{%0d%0a<%00>%bf%27'ðŸ’¡
   ```
-  
+
 - 各种wiki
 
 
