@@ -17,17 +17,13 @@ permalink: /reference/
 
 - 渗透测试
   [ptestmethod](https://ptestmethod.readthedocs.io/en/latest/index.html)
+
 - 内网渗透tips
 [goproxy](https://github.com/snail007/goproxy)
 [https://github.com/Ridter/Intranet_Penetration_Tips](https://github.com/Ridter/Intranet_Penetration_Tips)
 
 - url 跳转 ssrf fuzz
 [站点跳转功能测试Cheatsheet](https://xz.aliyun.com/t/6225)
-
-- fuzz 字符串
-  ```text
-  12345'"\'\");|]*%00{%0d%0a<%00>%bf%27'ðŸ’¡
-  ```
 
 - 各种wiki
 
