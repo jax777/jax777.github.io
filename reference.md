@@ -7,6 +7,9 @@ permalink: /reference/
 * content
 {:toc}
 
+- web 安全& xss cheatsheet & 可以翻阅
+  [xss-cheat-sheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet)
+  
 - docker
   [docker手册](https://github.com/wsargent/docker-cheat-sheet/tree/master/zh-cn)
 
