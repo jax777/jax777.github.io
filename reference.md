@@ -7,6 +7,10 @@ permalink: /reference/
 * content
 {:toc}
 
+- sql 注入天书 sqlmap好啊
+
+  要啥语句都在这了
+  [https://github.com/sqlmapproject/sqlmap/blob/master/data/xml/queries.xml](https://github.com/sqlmapproject/sqlmap/blob/master/data/xml/queries.xml)
 - web 安全& xss cheatsheet & 可以翻阅
   [xss-cheat-sheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet)
   

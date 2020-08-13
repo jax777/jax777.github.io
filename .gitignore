@@ -1,2 +1,8 @@
 _site
 .sass-cache
+styles/images/.DS_Store
+styles/.DS_Store
+.gitignore
+_posts/.DS_Store
+backup/frida-server-12.8.14-android-arm64
+backup/.DS_Store
